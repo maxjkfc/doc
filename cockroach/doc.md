@@ -74,5 +74,36 @@ Time: 4.9491ms
 
 ```
 
+```sql
+> select * from test where tags = all ( select array['bus']);
 
+                   id                  |  tags
++--------------------------------------+---------+
+  3aab348a-fbd4-47aa-8899-f932ebc897f2 | {"bus"}
+(1 row)
+
+
+> select * from test where tags = any ( select array['bus']);
+
+                   id                  |  tags
++--------------------------------------+---------+
+  3aab348a-fbd4-47aa-8899-f932ebc897f2 | {"bus"}
+(1 row)
+
+
+```
+
+
+```sql
+// array_position(tags , 'bus') -> 回傳 'bus' 在 tags 陣列出現的位置
+> select * from test where array_position(tags , 'bus') > 0;
+
+                   id                  |         tags
++--------------------------------------+----------------------+
+  3aab348a-fbd4-47aa-8899-f932ebc897f2 | {"bus"}
+  778938c0-6ccb-43bb-b092-ac95ebd50e62 | {"sky","road","bus"}
+(2 rows)
+
+Time: 2.3471ms
+```
 
